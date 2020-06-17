@@ -1,18 +1,24 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-  </div>
+	<div class="home">
+		<strong>Trains</strong>
+		{{ trains.data }}
+	</div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import trainService from '../service/TrainService';
 
 export default {
-  name: "Home",
-  components: {
-    HelloWorld
-  }
+	name: 'Home',
+	data() {
+		return {
+			trains: { data: {} }
+		};
+	},
+	async created() {
+		this.trains = await trainService.fetch(10000);
+		console.table(JSON.parse(JSON.stringify(this.trains.data.departures.all)));
+	}
 };
 </script>
